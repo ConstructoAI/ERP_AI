@@ -8,14 +8,6 @@ import uuid
 from typing import Dict, List, Optional, Any
 import logging
 
-# Import de l'initialisation des postes
-try:
-    from init_postes_travail import initialize_postes_in_database, get_all_construction_postes
-except ImportError:
-    logger.warning("Module init_postes_travail non disponible")
-    initialize_postes_in_database = None
-    get_all_construction_postes = None
-
 # Export HTML disponible par défaut
 HTML_EXPORT_AVAILABLE = True
 
@@ -108,20 +100,11 @@ POSTES_CONSTRUCTION_QUEBEC = [
 def init_postes_construction_if_empty(db):
     """Initialise les postes de travail construction si la table est vide"""
     try:
-        # D'abord essayer d'utiliser le nouveau module avec 120 postes
-        if initialize_postes_in_database and get_all_construction_postes:
-            logger.info("🔧 Initialisation avec module init_postes_travail (120 postes)...")
-            success = initialize_postes_in_database(db)
-            if success:
-                logger.info("✅ 120 postes de travail construction initialisés via nouveau module")
-                return
-        
-        # Sinon, utiliser l'ancienne méthode avec les postes de base
-        # Vérifier si des postes existent dans work_centers
+        # Vérifier si des postes existent
         count_result = db.execute_query("SELECT COUNT(*) as count FROM work_centers")
         
         if count_result and count_result[0]['count'] == 0:
-            # Créer les postes construction de base
+            # Créer les postes construction
             for poste in POSTES_CONSTRUCTION_QUEBEC:
                 db.execute_insert("""
                     INSERT INTO work_centers 
@@ -136,17 +119,7 @@ def init_postes_construction_if_empty(db):
                     poste["description"]
                 ))
             
-            logger.info(f"✅ {len(POSTES_CONSTRUCTION_QUEBEC)} postes de travail construction de base initialisés")
-        
-        # Vérifier aussi la table postes_travail (nouveau format)
-        try:
-            count_result2 = db.execute_query("SELECT COUNT(*) as count FROM postes_travail")
-            if count_result2 and count_result2[0]['count'] == 0:
-                # Initialiser avec le nouveau module si disponible
-                if initialize_postes_in_database:
-                    initialize_postes_in_database(db)
-        except:
-            pass  # La table n'existe peut-être pas encore
+            logger.info(f"✅ {len(POSTES_CONSTRUCTION_QUEBEC)} postes de travail construction initialisés")
             
     except Exception as e:
         logger.error(f"Erreur initialisation postes construction: {e}")
