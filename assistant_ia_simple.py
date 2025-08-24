@@ -3131,33 +3131,30 @@ Pour obtenir une nouvelle clé API, contactez-nous :
         # Afficher l'historique
         with chat_container:
             if not st.session_state.ia_messages:
-                st.markdown("""
-                <div class="help-box">
-                    <h4>👋 Salut ! Je suis ton assistant IA expert en construction 🏗️</h4>
-                    <p><strong>🆕 NOUVEAU : Conversation 100% naturelle !</strong><br>
-                    Tu peux maintenant me parler comme à un collègue. J'ai accès à toutes les données de ton ERP !</p>
+                # Message d'accueil dans une boîte info
+                with st.container():
+                    st.info("""
+                    #### 👋 Salut ! Je suis ton assistant IA expert en construction 🏗️
                     
-                    <p><strong>✨ Essaie ces questions naturelles :</strong></p>
-                    <ul>
-                        <li>💬 <em>"Tu en penses quoi du projet château ?"</em></li>
-                        <li>🤔 <em>"Comment va le chantier de la résidence Martin ?"</em></li>
-                        <li>⚠️ <em>"Y'a-t-il des problèmes sur mes projets ?"</em></li>
-                        <li>💡 <em>"Que me conseilles-tu pour optimiser mes coûts ?"</em></li>
-                        <li>📊 <em>"Quel est l'état de mon inventaire ?"</em></li>
-                        <li>👥 <em>"Qui de mon équipe est disponible cette semaine ?"</em></li>
-                    </ul>
+                    **🆕 NOUVEAU : Conversation 100% naturelle !**  
+                    Tu peux maintenant me parler comme à un collègue. J'ai accès à toutes les données de ton ERP !
                     
-                    <p><strong>🏗️ Je fouille automatiquement dans :</strong><br>
-                    Projets • Employés • Inventaire • CRM • Bons de travail • Planification • Performance</p>
+                    **✨ Essaie ces questions naturelles :**
+                    - 💬 *"Tu en penses quoi du projet château ?"*
+                    - 🤔 *"Comment va le chantier de la résidence Martin ?"*
+                    - ⚠️ *"Y'a-t-il des problèmes sur mes projets ?"*
+                    - 💡 *"Que me conseilles-tu pour optimiser mes coûts ?"*
+                    - 📊 *"Quel est l'état de mon inventaire ?"*
+                    - 👥 *"Qui de mon équipe est disponible cette semaine ?"*
                     
-                    <p><strong>📋 Commandes spéciales :</strong></p>
-                    <ul>
-                        <li><code>/stats</code> - Statistiques rapides</li>
-                        <li><code>/erp [recherche]</code> - Recherche technique</li>
-                        <li><code>/help</code> - Cette aide</li>
-                    </ul>
-                </div>
-                """, unsafe_allow_html=True)
+                    **🏗️ Je fouille automatiquement dans :**  
+                    Projets • Employés • Inventaire • CRM • Bons de travail • Planification • Performance
+                    
+                    **📋 Commandes spéciales :**
+                    - `/stats` - Statistiques rapides
+                    - `/erp [recherche]` - Recherche technique  
+                    - `/help` - Cette aide
+                    """)
             
             # Afficher les messages
             for msg in st.session_state.ia_messages:
