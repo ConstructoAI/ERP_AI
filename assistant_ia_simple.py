@@ -1771,6 +1771,21 @@ L'assistant IA vous permettra d'analyser vos données ERP, obtenir des recommand
             
         except Exception as e:
             logger.error(f"Erreur conversation naturelle: {e}")
+            
+            # Vérifier si c'est une erreur d'authentification API
+            error_str = str(e).lower()
+            if "401" in error_str or "authentication" in error_str or "invalid x-api-key" in error_str or "api key" in error_str:
+                return """❌ **Erreur d'authentification - Clé API invalide**
+                
+🔑 **La clé API fournie n'est pas valide ou a expiré**
+
+Pour obtenir une nouvelle clé API, contactez-nous :
+📧 **info@constructoai.ca**
+📱 **(514) 820-1972**
+
+Notre équipe vous fournira rapidement une clé API valide pour activer l'Assistant IA."""
+            
+            # Autre erreur technique
             return f"😅 Oups, j'ai eu un petit problème technique : {str(e)}. Tu peux réessayer ta question ?"
     
     def _fouiller_donnees_erp_completes(self, contexte_projet: Optional[str] = None) -> Dict[str, Any]:
@@ -2889,6 +2904,19 @@ Réponds comme un expert-conseil en construction au Québec."""
             
         except Exception as e:
             logger.error(f"Erreur Claude: {e}")
+            
+            # Vérifier si c'est une erreur d'authentification API
+            error_str = str(e).lower()
+            if "401" in error_str or "authentication" in error_str or "invalid x-api-key" in error_str or "api key" in error_str:
+                return """❌ **Erreur d'authentification - Clé API invalide**
+                
+🔑 **La clé API fournie n'est pas valide ou a expiré**
+
+Pour obtenir une nouvelle clé API, contactez-nous :
+📧 **info@constructoai.ca**
+📱 **(514) 820-1972**"""
+            
+            # Autre erreur
             return f"❌ Erreur: {str(e)}"
     
     # =========================================================================
