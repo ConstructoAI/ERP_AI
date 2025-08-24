@@ -1724,7 +1724,15 @@ class AssistantIASimple:
         L'assistant fouille toutes les données ERP et répond naturellement
         """
         if not self.client:
-            return "😔 Désolé, je ne suis pas encore configuré. Il me faut une clé API Claude pour pouvoir discuter avec toi."
+            return """😔 **Assistant IA non disponible**
+            
+🔑 **Clé API requise**
+
+Pour obtenir une clé API et activer l'Assistant IA, contactez-nous :
+📧 **info@constructoai.ca**
+📱 **(514) 820-1972**
+
+L'assistant IA vous permettra d'analyser vos données ERP, obtenir des recommandations et optimiser vos opérations."""
         
         try:
             # Fouiller les données ERP complètes
@@ -2785,7 +2793,13 @@ INTENTION DÉTECTÉE: {intention}
     def _get_claude_response(self, prompt: str, context: Dict = None) -> str:
         """Obtient une réponse de Claude"""
         if not self.client:
-            return "❌ Assistant IA non configuré. Veuillez définir la clé API Claude."
+            return """❌ **Assistant IA non configuré**
+            
+🔑 **Clé API requise**
+
+Pour obtenir une clé API et activer l'Assistant IA, contactez-nous :
+📧 **info@constructoai.ca**
+📱 **(514) 820-1972**"""
         
         try:
             # Construire le message système avec contexte ERP
@@ -3070,6 +3084,18 @@ Réponds comme un expert-conseil en construction au Québec."""
                 - `/erp [recherche]` - Recherche technique
                 - `/debug` - Info système
                 """)
+        
+        # Vérifier si l'API est configurée et afficher un message si nécessaire
+        if not self.client:
+            st.warning("""
+            🔑 **Clé API requise**
+            
+            Pour obtenir une clé API et activer l'Assistant IA, contactez-nous :
+            - 📧 **info@constructoai.ca**
+            - 📱 **(514) 820-1972**
+            
+            L'assistant IA vous permettra d'analyser vos données ERP, obtenir des recommandations et optimiser vos opérations.
+            """)
         
         # Zone de chat
         chat_container = st.container()
